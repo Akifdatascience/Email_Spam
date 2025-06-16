@@ -4,16 +4,16 @@ import string
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
+from nltk.tokenize import TreebankWordTokenizer
 
-# Download necessary NLTK data files
-nltk.download('punkt')
-nltk.download('stopwords')
-
+# Initialize stemmer and tokenizer
 ps = PorterStemmer()
+tokenizer = TreebankWordTokenizer()
 
+# Text preprocessing function
 def transform_text(text):
     text = text.lower()
-    text = nltk.word_tokenize(text)
+    text = tokenizer.tokenize(text)  # Avoids the 'punkt' tokenizer
 
     y = []
     for i in text:
@@ -35,9 +35,9 @@ def transform_text(text):
 
     return " ".join(y)
 
-# Load pre-trained models
-tfidf = pickle.load(open('vectorizer.pkl', 'rb'))
-model = pickle.load(open('model.pkl', 'rb'))
+# Load vectorizer and model
+tfidf = pickle.load(open('vectorizer.pkl','rb'))
+model = pickle.load(open('model.pkl','rb'))
 
 # Streamlit UI
 st.title("Email/SMS Spam Classifier")
